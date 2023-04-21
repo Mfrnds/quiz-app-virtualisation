@@ -10,7 +10,7 @@ CORS(app)
 def CheckIfLogged():
 	if "Authorization" in request.headers:
 		#Récupérer le token envoyé en paramètre
-		sub = jwt_utils.decode_token(request.headers.get('Authorization'))
+		sub = jwt_utils.decode_token(request.headers["Authorization"].split("Bearer ")[1])
 
 		if sub != "quiz-app-admin":
 			return 'Unauthorized', 401
@@ -30,7 +30,7 @@ def Login():
 # QUESTIONS
 @app.route('/questions', methods=['POST'])
 def CreateQuestion():
-	# CheckIfLogged()
+	CheckIfLogged()
 
 	#récupèrer un l'objet json envoyé dans le body de la requète
 	data = request.get_json()
