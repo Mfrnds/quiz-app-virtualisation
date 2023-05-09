@@ -4,9 +4,7 @@ class Database:
     def __init__(self):
         self.db_connection = sqlite3.connect("quiz.db")
         self.db_connection.isolation_level = None
-
-        # self.db_init()
-
+        
     def __del__(self):
         self.db_connection.close()
 

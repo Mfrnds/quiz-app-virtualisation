@@ -1,5 +1,4 @@
 from classes.Database import Database
-from json import JSONEncoder
 
 # Exemple de création de classe en python
 class Question():
