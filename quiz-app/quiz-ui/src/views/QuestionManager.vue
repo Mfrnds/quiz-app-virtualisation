@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="row main-container">
-      <div class="offset-4 col-4">
+      <div class="col-12">
         <div class="row text-center">
           <div class="col-6">
             <h2 class="main-title">Q° {{ currentQuestionPosition }} / {{ totalNumberOfQuestion }}</h2>
@@ -30,7 +30,7 @@ export default {
         questionImage: '',
         possibleAnswers: []
       },
-      currentQuestionPosition : 0,
+      currentQuestionPosition : 1,
       selectedAnswers: []
     }
   },
@@ -42,20 +42,22 @@ export default {
   },
   methods:{
     async loadQuestionByPosition(){
-      let question = await quizApiService.getQuestion(this.currentQuestionPosition);
+      let data = await quizApiService.getQuestion(this.currentQuestionPosition);
+      const question = data.data;
+      console.log(question);
 
       this.currentQuestion.questionTitle = question.title;
       this.currentQuestion.questionText = question.text; 
       this.currentQuestion.questionImage = question.image;
       this.currentQuestion.possibleAnswers = question.possibleAnswers;
     },
-    answerClickedHandler(payload){
+    async answerClickedHandler(payload){
       console.log(payload);
       this.currentQuestionPosition += 1;
-      this.loadQuestionByPosition();
+      await this.loadQuestionByPosition();
       // this.selectedAnswers.push()
     },
-    endQuiz(){
+    async endQuiz(){
       
     }
   }

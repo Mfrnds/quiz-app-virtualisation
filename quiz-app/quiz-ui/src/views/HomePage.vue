@@ -30,9 +30,9 @@ export default {
     };
   },
   async created() {
-    // let test = await quizApiService.getQuizInfo();
+    let test = await quizApiService.getQuizInfo();
 
-		console.log("yo");
+		console.log(test);
   }
 };
 </script>
