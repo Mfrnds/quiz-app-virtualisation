@@ -9,10 +9,19 @@ class Question():
         self.image = image
         self.position = position
 
-    def persist(self):
+    def persist(self, answers):
         db = Database()
-        return db.execute_sql("INSERT INTO Question (title,text,image,position) VALUES (?, ?, ?, ?);", (self.title, self.text, self.image, self.position))
-    
+        c = db.execute_sql("INSERT INTO Question (title,text,image,position) VALUES (?, ?, ?, ?);", (self.title, self.text, self.image, self.position))
+        lastrowid = c.lastrowid
+        c.execute("commit")
+
+        for answer in answers:
+            c = db.execute_sql("INSERT INTO Answer (text,isCorrect,question_id) VALUES (?, ?, ?);", (answer["text"], (1 if answer["isCorrect"] else 0), lastrowid))
+            c.execute("commit")
+
+        c.close()
+        return lastrowid
+
 class QuestionEncoder(JSONEncoder):
         def default(self, o):
             return o.__dict__
