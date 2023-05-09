@@ -164,8 +164,10 @@ def UpdateQuestion(questionId):
 			c.execute("commit")
 			c.close()
 			answer_index += 1
-		else: # todo : delete answer.
-			continue
+		else: # else we delete registered answer.
+			c = db.execute_sql("DELETE FROM Answer WHERE id = ?", (answer_to_modify[0],))
+			c.execute("commit")
+			c.close()
 
 	return 'No Content', 204
 
