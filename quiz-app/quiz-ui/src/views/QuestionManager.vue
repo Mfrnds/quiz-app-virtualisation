@@ -59,15 +59,18 @@ export default {
       this.currentQuestion.possibleAnswers = question.possibleAnswers;
     },
     async answerClickedHandler(answerId){
-      if(this.currentQuestionPosition === this.totalNumberOfQuestion) this.endQuiz();
-      this.currentQuestionPosition += 1;
-      await this.loadQuestionByPosition();
       this.selectedAnswers.push(answerId);
-
+      if(this.currentQuestionPosition === this.totalNumberOfQuestion) {
+        this.endQuiz();
+      }else{
+        this.currentQuestionPosition += 1;
+        await this.loadQuestionByPosition();
+      }
     },
     async endQuiz(){
-      console.log("end quiz");
-      console.log(this.selectedAnswers);
+      this.username = "test"
+      let data = await quizApiService.postAnswers(this.username, this.selectedAnswers)
+      participationStorageService.saveParticipationScore(data.data.score);
       this.$router.push('/end-quiz');
     }
   }
