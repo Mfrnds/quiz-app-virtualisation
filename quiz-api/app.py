@@ -1,7 +1,8 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 import jwt_utils, hashlib
 from classes.Question import Question, QuestionEncoder
+from classes.Database import Database
 
 app = Flask(__name__)
 CORS(app)
@@ -11,9 +12,10 @@ def CheckIfLogged():
 	if "Authorization" in request.headers:
 		#Récupérer le token envoyé en paramètre
 		sub = jwt_utils.decode_token(request.headers["Authorization"].split("Bearer ")[1])
-
 		if sub != "quiz-app-admin":
-			return 'Unauthorized', 401
+			return False
+		return True
+	return False
 
 # AUTHENTICATION
 @app.route('/login', methods=['POST'])
@@ -30,7 +32,8 @@ def Login():
 # QUESTIONS
 @app.route('/questions', methods=['POST'])
 def CreateQuestion():
-	CheckIfLogged()
+	if not CheckIfLogged():
+		return 'Unauthorized', 401
 
 	#récupèrer un l'objet json envoyé dans le body de la requète
 	data = request.get_json()
@@ -39,6 +42,37 @@ def CreateQuestion():
 	# Save in database and return id with code 200
 	return {"id": question.persist()}, 200
 	
+@app.route('/questions/<int:questionId>', methods=['GET'])
+def GetQuestion(questionId):
+	db = Database()
+	c = db.execute_sql("SELECT * FROM Question WHERE id = ?", (questionId,))
+	question = c.fetchone()
+	c.close()
+
+	if question:
+		return jsonify({
+			'id': question[0],
+			'title': question[1],
+			'position': question[4],
+			'text': question[2],
+			'image': question[3],
+		})
+	else:
+		return jsonify({'error': 'Question not found'}), 404
+	
+@app.route('/questions/<int:questionId>', methods=['DELETE'])
+def DeleteQuestion(questionId):
+	if not CheckIfLogged():
+		return 'Unauthorized', 401
+	
+	db = Database()
+	c = db.execute_sql("DELETE FROM Question WHERE id = ?", (questionId,))
+	c.execute("commit")
+	c.close()
+
+	return 'No Content', 204
+
+
 
 if __name__ == "__main__":
     app.run()

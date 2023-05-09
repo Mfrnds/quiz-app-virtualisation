@@ -11,8 +11,12 @@ class Question():
 
     def persist(self):
         db = Database()
-        return db.execute_sql("INSERT INTO Question (title,text,image,position) VALUES (?, ?, ?, ?);", (self.title, self.text, self.image, self.position))
-    
+        c = db.execute_sql("INSERT INTO Question (title,text,image,position) VALUES (?, ?, ?, ?);", (self.title, self.text, self.image, self.position))
+        lastrowid = c.lastrowid
+        c.execute("commit")
+        c.close()
+        return lastrowid
+
 class QuestionEncoder(JSONEncoder):
         def default(self, o):
             return o.__dict__
