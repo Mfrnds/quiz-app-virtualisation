@@ -3,6 +3,7 @@ from flask_cors import CORS
 import jwt_utils, hashlib
 from classes.Question import Question
 from classes.Database import Database
+from classes.Participation import Participation
 
 app = Flask(__name__)
 CORS(app)
@@ -17,7 +18,17 @@ def CheckIfLogged():
 		return True
 	return False
 
+# REBUILD DATABASE
+@app.route('/rebuild-db', methods=['POST'])
+def RebuildDatabase():
+	db = Database()
+	db.db_init()
+
+	
+	return 'Ok', 200
+
 # AUTHENTICATION
+
 @app.route('/login', methods=['POST'])
 def Login():
 	payload = request.get_json()
@@ -30,18 +41,43 @@ def Login():
 	return 'Unauthorized', 401
 
 # QUESTIONS
+
 @app.route('/questions', methods=['POST'])
 def CreateQuestion():
 	if not CheckIfLogged():
 		return 'Unauthorized', 401
 
 	#récupèrer un l'objet json envoyé dans le body de la requète
-	data = request.get_json()
+	payload = request.get_json()
+	db = Database()
 
-	question = Question(data["title"], data["text"], data["image"], data["position"])
+	c = db.execute_sql("SELECT * FROM Question WHERE position = ?", (payload["position"],))
+	position_question = c.fetchone()
+	c.execute("commit")
+	c.close()
+	
+	if position_question: # then we have to decale all questions
+		# get all questions which position are higher or equal than given position and lower than current pos
+		if (payload["position"] < question[4]):
+			c = db.execute_sql("SELECT * FROM Question WHERE position >= ? AND position <= ?", (payload["position"],question[4]))
+			increment = 1
+		else:
+			c = db.execute_sql("SELECT * FROM Question WHERE position >= ? AND position <= ?", (question[4],payload["position"]))
+			increment = -1
+
+		have_to_modify_questions = c.fetchall()
+		c.execute("commit")
+		c.close()
+
+		for question in reversed(have_to_modify_questions): # decale position from end (easier)
+			c = db.execute_sql("UPDATE Question SET position=? WHERE id = ?", (question[4]+increment,question[0]))
+			c.execute("commit")
+			c.close()
+
+	question = Question(payload["title"], payload["text"], payload["image"], payload["position"])
 
 	# Save in database and return id with code 200
-	return {"id": question.persist(data["possibleAnswers"])}, 200
+	return {"id": question.persist(payload["possibleAnswers"])}, 200
 
 @app.route('/questions', methods=['GET'])
 def GetQuestionByPosition():
@@ -100,12 +136,56 @@ def GetQuestionById(questionId):
 	else:
 		return jsonify({'error': 'Question not found'}), 404
 	
+@app.route('/questions/all', methods=['DELETE'])
+def DeleteAllQuestions():
+	if not CheckIfLogged():
+		return 'Unauthorized', 401
+	
+	db = Database()
+
+	# delete all answers
+	c = db.execute_sql("DELETE FROM Answer", ())
+	c.execute("commit")
+	c.close()
+
+	# delete all questions
+	c = db.execute_sql("DELETE FROM Question", ())
+	c.execute("commit")
+	c.close()
+
+	return 'No Content', 204
+	
 @app.route('/questions/<int:questionId>', methods=['DELETE'])
 def DeleteQuestion(questionId):
 	if not CheckIfLogged():
 		return 'Unauthorized', 401
 	
 	db = Database()
+
+	# get question that will be deleted
+	c = db.execute_sql("SELECT * FROM Question WHERE id=?;", (questionId,))
+	question = c.fetchone()
+	c.execute("commit")
+	c.close()
+
+	# get total questions count
+	c = db.execute_sql("SELECT COUNT(*) FROM Question", ())
+	count = c.fetchone()[0]
+	c.execute("commit")
+	c.close()
+
+	# if question to delete isn't the last one then we have to reorder the rest of the question positions by decrementing them
+	if (question[4] < count):
+		c = db.execute_sql("SELECT * FROM Question WHERE position > ?;", (question[4],))
+		questions_to_decrement = c.fetchall()
+		c.execute("commit")
+		c.close()
+
+		for quest_decr in questions_to_decrement:
+			c = db.execute_sql("UPDATE Question SET position=? WHERE id = ?", (quest_decr[4]-1,quest_decr[0])) # decrement each question position
+			c.execute("commit")
+			c.close()
+
 	c = db.execute_sql("DELETE FROM Question WHERE id = ?", (questionId,))
 	c.execute("commit")
 	c.close()
@@ -119,6 +199,15 @@ def UpdateQuestion(questionId):
 	
 	db = Database()
 	payload = request.get_json()
+
+	c = db.execute_sql("SELECT * FROM Question WHERE id = ?", (questionId,))
+	question = c.fetchone()
+	c.execute("commit")
+	c.close()
+
+	if not question:
+		return 'Not Found', 404
+
 	c = db.execute_sql("SELECT COUNT(*) FROM Question", ())
 	count = c.fetchone()[0]
 	c.execute("commit")
@@ -126,22 +215,27 @@ def UpdateQuestion(questionId):
 
 	if (payload["position"] > count):
 		return 'Position cannot be higher than questions total count', 401
-
 	
 	c = db.execute_sql("SELECT * FROM Question WHERE position = ?", (payload["position"],))
 	position_question = c.fetchone()
 	c.execute("commit")
 	c.close()
-
+	
 	if position_question: # then we have to decale all questions
-		# get all questions which position are higher or equal than given position
-		c = db.execute_sql("SELECT * FROM Question WHERE position >= ?", (payload["position"],))
+		# get all questions which position are higher or equal than given position and lower than current pos
+		if (payload["position"] < question[4]):
+			c = db.execute_sql("SELECT * FROM Question WHERE position >= ? AND position <= ?", (payload["position"],question[4]))
+			increment = 1
+		else:
+			c = db.execute_sql("SELECT * FROM Question WHERE position >= ? AND position <= ?", (question[4],payload["position"]))
+			increment = -1
+
 		have_to_modify_questions = c.fetchall()
 		c.execute("commit")
 		c.close()
 
 		for question in reversed(have_to_modify_questions): # decale position from end (easier)
-			c = db.execute_sql("UPDATE Question SET position=? WHERE id = ?", (question[4]+1,question[0]))
+			c = db.execute_sql("UPDATE Question SET position=? WHERE id = ?", (question[4]+increment,question[0]))
 			c.execute("commit")
 			c.close()
 
@@ -159,7 +253,7 @@ def UpdateQuestion(questionId):
 	answer_index = 0
 
 	for answer_to_modify in have_to_modify_answers: # modify answers
-		if (answer_index < len(have_to_modify_answers)-1): # update the number of answers given
+		if (answer_index <= len(have_to_modify_answers)-1): # update the number of answers given
 			c = db.execute_sql("UPDATE Answer SET text=?, isCorrect=? WHERE id = ?", (payload["possibleAnswers"][answer_index]["text"], (True if payload["possibleAnswers"][answer_index]["isCorrect"] == 1 else 0) ,answer_to_modify[0]))
 			c.execute("commit")
 			c.close()
@@ -170,6 +264,91 @@ def UpdateQuestion(questionId):
 			c.close()
 
 	return 'No Content', 204
+
+# QUIZ INFO
+@app.route('/quiz-info', methods=['GET'])
+def GetQuizInfo():
+	db = Database()
+
+	# Get the size field
+	c = db.execute_sql("SELECT COUNT(*) FROM Question", ())
+	count = c.fetchone()[0]
+	c.execute("commit")
+	c.close()
+
+	# Get all participations
+	c = db.execute_sql("SELECT * FROM Participation ORDER BY score DESC", ())
+	rows = c.fetchall()
+	c.execute("commit")
+	c.close()
+
+	scores = []
+	for score in rows:
+		scores.append({
+			"playerName": score[1],
+			"score": score[2],
+			"date": score[3]
+		})
+
+	return jsonify({
+		'size': count,
+		'scores': scores
+	})
+	
+
+# PARTICIPATIONS
+
+@app.route('/participations', methods=['POST'])
+def RecordParticipation():
+	#récupèrer un l'objet json envoyé dans le body de la requète
+	db = Database()
+	payload = request.get_json()
+	answers = payload["answers"]
+
+	# compute if answers are correct
+	# get all questions and correct answer first
+	c = db.execute_sql("SELECT q.*, a.*, (SELECT COUNT(*) + 1 FROM Answer a2 WHERE a2.question_id = q.id AND a2.id < a.id) AS answer_index FROM Question q JOIN Answer a ON q.id = a.question_id AND a.isCorrect = 1;", ())
+	questions = c.fetchall()
+	c.execute("commit")
+	c.close()
+
+	index = 0
+	score = 0
+
+	if (len(answers) != len(questions)):
+		return 'Bad Request', 400 
+
+	for question in questions:
+		if (question[9] == answers[index]): # if index of correct answer is equal to what user said then we add a point
+			score += 1
+		index += 1
+
+	participation = Participation(payload["playerName"], score)
+
+	# Save in database
+	participation.persist()
+
+	# return results with code 200
+	return {
+		"playerName": payload["playerName"],
+		"score": score
+	}, 200
+
+@app.route('/participations/all', methods=['DELETE'])
+def DeleteAllParticipations():
+	if not CheckIfLogged():
+		return 'Unauthorized', 401
+
+	db = Database()
+
+	# delete all participations
+	c = db.execute_sql("DELETE FROM Participation", ())
+	c.execute("commit")
+	c.close()
+
+	return 'No Content', 204
+
+
 
 if __name__ == "__main__":
     app.run()
