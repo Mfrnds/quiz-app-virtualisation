@@ -6,6 +6,9 @@
           <div class="col-6">
             <h2 class="main-title">Q° {{ currentQuestionPosition }} / {{ totalNumberOfQuestion }}</h2>
           </div>
+          <div class="col-6">
+            <h2>{{ username }}</h2>
+          </div>
         </div>
         <div class="row text-center">
           <QuestionDisplay :question="currentQuestion" @answer-selected="answerClickedHandler" />
@@ -31,14 +34,19 @@ export default {
         possibleAnswers: []
       },
       currentQuestionPosition : 1,
-      selectedAnswers: []
+      selectedAnswers: [],
+      username: '',
+      totalNumberOfQuestion: 0
     }
   },
   components: {
     QuestionDisplay
   },
   async created() {
-     this.loadQuestionByPosition()
+    const quizInfo = await quizApiService.getQuizInfo();
+    this.username = participationStorageService.getPlayerName();
+    this.totalNumberOfQuestion = quizInfo.data.size;
+    this.loadQuestionByPosition();
   },
   methods:{
     async loadQuestionByPosition(){
@@ -51,12 +59,15 @@ export default {
       this.currentQuestion.possibleAnswers = question.possibleAnswers;
     },
     async answerClickedHandler(answerId){
+      if(this.currentQuestionPosition === this.totalNumberOfQuestion) this.endQuiz();
       this.currentQuestionPosition += 1;
       await this.loadQuestionByPosition();
-      this.selectedAnswers.push(answerId)
+      this.selectedAnswers.push(answerId);
+
     },
     async endQuiz(){
-      
+      console.log("end quiz");
+      console.log(this.selectedAnswers);
     }
   }
 };
