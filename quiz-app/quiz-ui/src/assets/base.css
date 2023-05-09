@@ -89,6 +89,7 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  cursor : url(https://cdn.custom-cursor.com/db/cursor/32/Harry_Potter_Wand_Cursor.png) , default !important;
 }
 
 .main-container{
