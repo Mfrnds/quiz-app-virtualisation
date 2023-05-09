@@ -117,16 +117,55 @@ def UpdateQuestion(questionId):
 	if not CheckIfLogged():
 		return 'Unauthorized', 401
 	
-	payload = request.get_json()
-
 	db = Database()
-	c = db.execute_sql("SELECT * FROM Question WHERE id = ?", (questionId,))
-	question = c.fetchone()
+	payload = request.get_json()
+	c = db.execute_sql("SELECT COUNT(*) FROM Question", ())
+	count = c.fetchone()[0]
+	c.execute("commit")
 	c.close()
 
-	#if (payload["position"] > )
+	if (payload["position"] > count):
+		return 'Position cannot be higher than questions total count', 401
+
 	
-	
+	c = db.execute_sql("SELECT * FROM Question WHERE position = ?", (payload["position"],))
+	position_question = c.fetchone()
+	c.execute("commit")
+	c.close()
+
+	if position_question: # then we have to decale all questions
+		# get all questions which position are higher or equal than given position
+		c = db.execute_sql("SELECT * FROM Question WHERE position >= ?", (payload["position"],))
+		have_to_modify_questions = c.fetchall()
+		c.execute("commit")
+		c.close()
+
+		for question in reversed(have_to_modify_questions): # decale position from end (easier)
+			c = db.execute_sql("UPDATE Question SET position=? WHERE id = ?", (question[4]+1,question[0]))
+			c.execute("commit")
+			c.close()
+
+	# we can finally update our original question!
+	c = db.execute_sql("UPDATE Question SET title=?, text=?, image=?, position=? WHERE id = ?", (payload["title"], payload["text"], payload["image"], payload["position"], questionId))
+	c.execute("commit")
+	c.close()
+
+	# we can also update answers
+	c = db.execute_sql("SELECT * FROM Answer WHERE question_id = ?", (questionId,))
+	have_to_modify_answers = c.fetchall()
+	c.execute("commit")
+	c.close()
+
+	answer_index = 0
+
+	for answer_to_modify in have_to_modify_answers: # modify answers
+		if (answer_index < len(have_to_modify_answers)-1): # update the number of answers given
+			c = db.execute_sql("UPDATE Answer SET text=?, isCorrect=? WHERE id = ?", (payload["possibleAnswers"][answer_index]["text"], (True if payload["possibleAnswers"][answer_index]["isCorrect"] == 1 else 0) ,answer_to_modify[0]))
+			c.execute("commit")
+			c.close()
+			answer_index += 1
+		else: # todo : delete answer.
+			continue
 
 	return 'No Content', 204
 
