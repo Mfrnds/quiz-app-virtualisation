@@ -1,5 +1,4 @@
 from classes.Database import Database
-from json import JSONEncoder
 
 # Exemple de création de classe en python
 class Question():
@@ -21,7 +20,3 @@ class Question():
 
         c.close()
         return lastrowid
-
-class QuestionEncoder(JSONEncoder):
-        def default(self, o):
-            return o.__dict__
