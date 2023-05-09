@@ -36,5 +36,13 @@ class Database:
                 "image"	BLOB,
                 "position"	INTEGER,
                 PRIMARY KEY("id" AUTOINCREMENT)
-            )
+            );
+            CREATE TABLE "Answer" (
+                "id"	INTEGER UNIQUE,
+                "text"	TEXT NOT NULL,
+                "isCorrect"	INTEGER NOT NULL,
+                "question_id"	INTEGER NOT NULL,
+                PRIMARY KEY("id" AUTOINCREMENT),
+                FOREIGN KEY("question_id") REFERENCES "Question"("id")
+            );
         """)

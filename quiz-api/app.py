@@ -39,23 +39,63 @@ def CreateQuestion():
 	data = request.get_json()
 
 	question = Question(data["title"], data["text"], data["image"], data["position"])
+
 	# Save in database and return id with code 200
-	return {"id": question.persist()}, 200
+	return {"id": question.persist(data["possibleAnswers"])}, 200
+
+@app.route('/questions', methods=['GET'])
+def GetQuestionByPosition():
+	if not request.args.get('position'):
+		return jsonify({'error': 'Question not found'}), 404
 	
-@app.route('/questions/<int:questionId>', methods=['GET'])
-def GetQuestion(questionId):
 	db = Database()
-	c = db.execute_sql("SELECT * FROM Question WHERE id = ?", (questionId,))
-	question = c.fetchone()
+	c = db.execute_sql("SELECT * FROM Question JOIN Answer ON Answer.question_id = Question.id WHERE Question.position = ?", (request.args.get('position'),))
+	question = c.fetchall()
 	c.close()
+
+	answers = []
+	for answer in question:
+		answers.append({
+			"id": answer[5],
+			"text": answer[6],
+			"isCorrect": False if answer[7] == 0 else True
+		})
 
 	if question:
 		return jsonify({
-			'id': question[0],
-			'title': question[1],
-			'position': question[4],
-			'text': question[2],
-			'image': question[3],
+			'id': question[0][0],
+			'title': question[0][1],
+			'position': question[0][4],
+			'text': question[0][2],
+			'image': question[0][3],
+			'possibleAnswers': answers
+		})
+	else:
+		return jsonify({'error': 'Question not found'}), 404
+	
+@app.route('/questions/<int:questionId>', methods=['GET'])
+def GetQuestionById(questionId):
+	db = Database()
+	c = db.execute_sql("SELECT * FROM Question JOIN Answer ON Answer.question_id = Question.id WHERE Question.id = ?", (questionId,))
+	question = c.fetchall()
+	c.close()
+
+	answers = []
+	for answer in question:
+		answers.append({
+			"id": answer[5],
+			"text": answer[6],
+			"isCorrect": False if answer[7] == 0 else True
+		})
+
+	if question:
+		return jsonify({
+			'id': question[0][0],
+			'title': question[0][1],
+			'position': question[0][4],
+			'text': question[0][2],
+			'image': question[0][3],
+			'possibleAnswers': answers
 		})
 	else:
 		return jsonify({'error': 'Question not found'}), 404
@@ -72,7 +112,23 @@ def DeleteQuestion(questionId):
 
 	return 'No Content', 204
 
+@app.route('/questions/<int:questionId>', methods=['PUT'])
+def UpdateQuestion(questionId):
+	if not CheckIfLogged():
+		return 'Unauthorized', 401
+	
+	payload = request.get_json()
 
+	db = Database()
+	c = db.execute_sql("SELECT * FROM Question WHERE id = ?", (questionId,))
+	question = c.fetchone()
+	c.close()
+
+	#if (payload["position"] > )
+	
+	
+
+	return 'No Content', 204
 
 if __name__ == "__main__":
     app.run()
