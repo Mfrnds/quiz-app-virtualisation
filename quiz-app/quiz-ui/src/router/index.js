@@ -9,11 +9,11 @@ const router = createRouter({
       name: 'HomePage',
       component: HomePage
     },
-    {
-      path: '/start-new-quiz-page',
-      name: 'Start new quiz',
-      component: NewQuizPage
-    },
+    // {
+    //   path: '/start-new-quiz-page',
+    //   name: 'Start new quiz',
+    //   component: NewQuizPage
+    // },
     {
       path: '/about',
       name: 'about',

@@ -1,9 +1,21 @@
 <template>
-  <h1>Home page</h1>
-  <div v-for="scoreEntry in registeredScores" v-bind:key="scoreEntry.date">
-    {{ scoreEntry.playerName }} - {{ scoreEntry.score }}
-  </div>
-  <router-link to="/start-new-quiz-page">Démarrer le quiz !</router-link>
+  <div class="container">
+    <div class="row main-container">
+      <div class="offset-4 col-4">
+        <div class="row text-center">
+          <h1 class="main-title">Harry Potter Quiz</h1>
+        </div>
+        <div class="row text-center">
+          <router-link to="/start-new-quiz-page"><button type="button" class="btn btn-primary main-btn">Participer</button></router-link>
+        </div>
+        <div class="row text-center">
+          <div v-for="scoreEntry in registeredScores" v-bind:key="scoreEntry.date">
+            {{ scoreEntry.playerName }} - {{ scoreEntry.score }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>  
 </template>
 
 <script>
@@ -18,9 +30,9 @@ export default {
     };
   },
   async created() {
-    let test = await quizApiService.getQuizInfo();
+    // let test = await quizApiService.getQuizInfo();
 
-		console.log(test);
+		console.log("yo");
   }
 };
 </script>

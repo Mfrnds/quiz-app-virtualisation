@@ -19,6 +19,8 @@
   --vt-c-text-light-2: rgba(60, 60, 60, 0.66);
   --vt-c-text-dark-1: var(--vt-c-white);
   --vt-c-text-dark-2: rgba(235, 235, 235, 0.64);
+
+  --primary-red : #740001
 }
 
 /* semantic color variables for this project */
@@ -66,9 +68,35 @@ body {
   transition: color 0.5s, background-color 0.5s;
   line-height: 1.6;
   font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
-    Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+    Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif, 'HarryPotter';
   font-size: 15px;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.main-container{
+  height: 100vh;
+  align-content: center;
+}
+
+.main-title{
+  font-family: 'HarryPotter';
+}
+
+.main-btn{
+  --bs-btn-color: #fff;
+  --bs-btn-bg: var(--primary-red);
+  --bs-btn-border-color: var(--primary-red);
+  --bs-btn-hover-color: #fff;
+  --bs-btn-hover-bg: #0b5ed7;
+  --bs-btn-hover-border-color: #0a58ca;
+  --bs-btn-focus-shadow-rgb: 49,132,253;
+  --bs-btn-active-color: #fff;
+  --bs-btn-active-bg: #0a58ca;
+  --bs-btn-active-border-color: #0a53be;
+  --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  --bs-btn-disabled-color: #fff;
+  --bs-btn-disabled-bg: var(--primary-red);
+  --bs-btn-disabled-border-color: var(--primary-red);
 }
