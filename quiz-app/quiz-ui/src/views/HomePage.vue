@@ -8,7 +8,7 @@
         <div class="row text-center">
           <router-link to="/start-new-quiz-page"><button type="button" class="btn btn-primary main-btn">Participer</button></router-link>
         </div>
-        <div class="row text-center">
+        <div class="row text-center my-4">
           <div v-for="scoreEntry in registeredScores" v-bind:key="scoreEntry.date">
             {{ scoreEntry.playerName }} - {{ scoreEntry.score }}
           </div>
@@ -21,18 +21,19 @@
 <script>
 import quizApiService from "@/services/QuizApiService";
 
-let registeredScores = [];
-
 export default {
   name: "HomePage",
   data() {
     return {
+      registeredScores: [],
+      size: 0,
     };
   },
   async created() {
-    let test = await quizApiService.getQuizInfo();
+    let quizInfo = await quizApiService.getQuizInfo();
 
-		console.log(test);
+    this.registeredScores = quizInfo.data.scores;
+    this.size = quizInfo.data.size;
   }
 };
 </script>

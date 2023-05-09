@@ -8,7 +8,7 @@
           </div>
         </div>
         <div class="row text-center">
-          <QuestionDisplay :question="currentQuestion" @click-on-answer="answerClickedHandler" />
+          <QuestionDisplay :question="currentQuestion" @answer-selected="answerClickedHandler" />
         </div>
       </div>
     </div>
@@ -44,18 +44,16 @@ export default {
     async loadQuestionByPosition(){
       let data = await quizApiService.getQuestion(this.currentQuestionPosition);
       const question = data.data;
-      console.log(question);
 
       this.currentQuestion.questionTitle = question.title;
       this.currentQuestion.questionText = question.text; 
       this.currentQuestion.questionImage = question.image;
       this.currentQuestion.possibleAnswers = question.possibleAnswers;
     },
-    async answerClickedHandler(payload){
-      console.log(payload);
+    async answerClickedHandler(answerId){
       this.currentQuestionPosition += 1;
       await this.loadQuestionByPosition();
-      // this.selectedAnswers.push()
+      this.selectedAnswers.push(answerId)
     },
     async endQuiz(){
       
