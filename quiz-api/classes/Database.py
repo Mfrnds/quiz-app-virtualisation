@@ -26,21 +26,36 @@ class Database:
             raise
         
     def db_init(self):
-        self.execute_sql("""
-            CREATE TABLE "Question" (
+        cur = self.db_connection.cursor()
+        cur.execute("begin")
+        cur.execute("""
+            CREATE TABLE IF NOT EXISTS "Question" (
                 "id"	INTEGER NOT NULL UNIQUE,
                 "title"	TEXT NOT NULL,
                 "text"	TEXT NOT NULL,
                 "image"	BLOB,
                 "position"	INTEGER,
                 PRIMARY KEY("id" AUTOINCREMENT)
-            );
-            CREATE TABLE "Answer" (
+            );""")
+        
+        cur.execute("""
+            CREATE TABLE IF NOT EXISTS "Answer" (
                 "id"	INTEGER UNIQUE,
                 "text"	TEXT NOT NULL,
                 "isCorrect"	INTEGER NOT NULL,
                 "question_id"	INTEGER NOT NULL,
                 PRIMARY KEY("id" AUTOINCREMENT),
                 FOREIGN KEY("question_id") REFERENCES "Question"("id")
-            );
-        """)
+            );""")
+        
+        cur.execute("""
+             CREATE TABLE IF NOT EXISTS "Participation" (
+                "id"	INTEGER NOT NULL,
+                "playerName"	TEXT NOT NULL,
+                "score"	INTEGER NOT NULL,
+                "date"	TEXT,
+                PRIMARY KEY("id" AUTOINCREMENT)
+            );""")
+        
+        cur.execute("commit")
+        cur.close()
