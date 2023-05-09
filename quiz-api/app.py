@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import jwt_utils, hashlib
-from classes.Question import Question, QuestionEncoder
+from classes.Question import Question
 from classes.Database import Database
 
 app = Flask(__name__)
