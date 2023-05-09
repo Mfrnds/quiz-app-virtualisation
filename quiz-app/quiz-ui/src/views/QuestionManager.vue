@@ -68,6 +68,7 @@ export default {
     async endQuiz(){
       console.log("end quiz");
       console.log(this.selectedAnswers);
+      this.$router.push('/end-quiz');
     }
   }
 };

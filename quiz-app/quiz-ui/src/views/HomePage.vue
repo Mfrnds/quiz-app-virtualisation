@@ -9,9 +9,7 @@
           <router-link to="/start-new-quiz-page"><button type="button" class="btn btn-primary main-btn">Participer</button></router-link>
         </div>
         <div class="row text-center my-4">
-          <div v-for="scoreEntry in registeredScores" v-bind:key="scoreEntry.date">
-            {{ scoreEntry.playerName }} - {{ scoreEntry.score }}
-          </div>
+          <ScoreDisplay/>
         </div>
       </div>
     </div>
@@ -19,21 +17,11 @@
 </template>
 
 <script>
-import quizApiService from "@/services/QuizApiService";
+import ScoreDisplay from '../components/ScoreDisplay.vue';
+
 
 export default {
-  name: "HomePage",
-  data() {
-    return {
-      registeredScores: [],
-      size: 0,
-    };
-  },
-  async created() {
-    let quizInfo = await quizApiService.getQuizInfo();
-
-    this.registeredScores = quizInfo.data.scores;
-    this.size = quizInfo.data.size;
-  }
+    name: "HomePage",
+    components: { ScoreDisplay }
 };
 </script>
