@@ -53,27 +53,25 @@
   --color-text: var(--vt-c-text-light-1);
 
   --section-gap: 160px;
+
+  --wand-cursor: url(https://cdn.custom-cursor.com/db/cursor/32/Harry_Potter_Wand_Cursor.png);
+  --wand-pointer: url(https://cdn.custom-cursor.com/db/pointer/32/Harry_Potter_Pointer.png);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-background: var(--vt-c-black);
-    --color-background-soft: var(--vt-c-black-soft);
-    --color-background-mute: var(--vt-c-black-mute);
-    --bs-light-rgb: var(--color-background-mute);
+[data-bs-theme="dark"] {
+  --color-background: var(--vt-c-black);
+  --color-background-soft: var(--vt-c-black-soft);
+  --color-background-mute: var(--vt-c-black-mute);
+  --bs-light-rgb: var(--color-background-mute);
 
-    --color-border: var(--vt-c-divider-dark-2);
-    --color-border-hover: var(--vt-c-divider-dark-1);
+  --color-border: var(--vt-c-divider-dark-2);
+  --color-border-hover: var(--vt-c-divider-dark-1);
 
-    --color-heading: var(--vt-c-text-dark-1);
-    --color-text: var(--vt-c-text-dark-2);
-  }
-  body{
-    cursor :url(https://cdn.custom-cursor.com/db/cursor/32/Lord_Voldemort_Wand_Cursor.png) , default !important;
-  }
-  .btn, a{
-    cursor: url(https://cdn.custom-cursor.com/db/pointer/32/Lord_Voldemort_Pointer.png) , pointer !important;
-  }
+  --color-heading: var(--vt-c-text-dark-1);
+  --color-text: var(--vt-c-text-dark-2);
+
+  --wand-cursor: url(https://cdn.custom-cursor.com/db/cursor/32/Lord_Voldemort_Wand_Cursor.png);
+  --wand-pointer: url(https://cdn.custom-cursor.com/db/pointer/32/Lord_Voldemort_Pointer.png);
 }
 
 *,
@@ -92,21 +90,38 @@ body {
   transition: color 0.5s, background-color 0.5s;
   line-height: 1.6;
   font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
-    Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif, 'HarryPotter';
+  Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif, 'HarryPotter';
   font-size: 15px;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  cursor : url(https://cdn.custom-cursor.com/db/cursor/32/Harry_Potter_Wand_Cursor.png) , default ;
+  cursor: var(--wand-cursor), default !important;
+}
+.btn, a{
+  cursor:  var(--wand-pointer), pointer !important;
+}
+.bg-light {
+  --bs-bg-opacity: 1;
+  background-color: var(--color-background-soft) !important;
+  color : var(--color-text);
+}
+.nav-link{
+  color : var(--color-text);
+}
+.nav-link:hover{
+  color : var(--color-heading);
 }
 
-.btn, a{
-  cursor: url(https://cdn.custom-cursor.com/db/pointer/32/Harry_Potter_Pointer.png) , pointer ;
+.main-navbar{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 }
 
 .main-container{
-  height: 100vh;
+  height: 90vh;
   align-content: center;
+  overflow: auto;
 }
 
 .main-title{
@@ -128,4 +143,15 @@ body {
   --bs-btn-disabled-color: #fff;
   --bs-btn-disabled-bg: var(--grif-1);
   --bs-btn-disabled-border-color: var(--grif-1);
+}
+
+.main-btn a{
+  color: #fff;
+  text-decoration: none;
+}
+
+.question-image{
+  height: 35vh;
+  background-position: center;
+  background-size: cover;
 }

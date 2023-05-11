@@ -1,22 +1,21 @@
 <template>
   <div class="container">
     <div class="row main-container">
-      <div class="offset-4 col-4">
-        <div class="row text-center">
-          <h1 class="main-title">Quiz terminé !</h1>
+      <div class="offset-3 col-6">
+        <div class="row text-center mb-2">
+          <h1 class="main-title" style="font-size: 4.5rem;">Quiz terminé !</h1>
         </div>
-        <div class="row text-center">
-          <router-link to="/"><button type="button" class="btn btn-primary main-btn">Retour accueil</button></router-link>
-        </div>
-        <div class="row text-center my-4">
-          <span class="main-title">Classement</span>
+        <div class="row justify-content-center text-center my-4">
+          <div class="d-grid gap-2 col-6">
+            <button type="button" class="btn btn-primary btn-lg main-btn"><router-link to="/">Accueil</router-link></button>
+          </div>
         </div>
         <div class="row text-center my-4">
           <ScoreDisplay/>
         </div>
       </div>
     </div>
-  </div>  
+  </div>
 </template>
 
 <script>
