@@ -1,4 +1,5 @@
 import './assets/main.css'
+import './utils/mouse.js'
 
 import { createApp } from 'vue'
 import App from './App.vue'
