@@ -122,8 +122,9 @@ body {
 }
 
 .main-container{
-  height: 100vh;
+  height: 90vh;
   align-content: center;
+  overflow: auto;
 }
 
 .main-title{
@@ -145,4 +146,15 @@ body {
   --bs-btn-disabled-color: #fff;
   --bs-btn-disabled-bg: var(--grif-1);
   --bs-btn-disabled-border-color: var(--grif-1);
+}
+
+.main-btn a{
+  color: #fff;
+  text-decoration: none;
+}
+
+.question-image{
+  height: 35vh;
+  background-position: center;
+  background-size: cover;
 }

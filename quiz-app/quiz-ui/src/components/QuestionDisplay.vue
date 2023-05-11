@@ -1,15 +1,15 @@
 <template>
     <div class="row text-center">
-      <h1 class="main-title">{{ question.questionTitle}}</h1>
+      <h3 class="main-title">{{ question.questionTitle}}</h3>
     </div>
-    <div class="row text-center my-2">
-      <img width="500" height="250" v-if="question.questionImage" :src="question.questionImage" />
-    </div>
-    <div class="row text-center my-3">
+    <div class="row text-center my-3 question-image" :style="{ 'background-image': 'url(' + question.questionImage + ')'}"></div>
+    <div class="row text-center my-4">
       <h5>{{ question.questionText }}</h5>
     </div>
-    <div class="row justify-content-center" v-for="(answer, i) in question.possibleAnswers" v-bind:key="answer.date">
-        <button type="button" class="col-4 btn btn-primary main-btn my-2" @click="$emit('answer-selected', i+1)">{{ answer.text }}</button>
+    <div class="row justify-content-center">
+      <button type="button" class="col-5 mx-2 btn btn-primary main-btn my-2" @click="$emit('answer-selected', i+1)" v-for="(answer, i) in question.possibleAnswers" v-bind:key="answer.date">
+          {{ answer.text }}
+      </button>
     </div>
     <div class="row">
 
