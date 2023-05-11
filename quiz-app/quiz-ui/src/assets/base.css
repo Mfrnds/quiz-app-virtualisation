@@ -74,6 +74,17 @@
   .btn, a{
     cursor: url(https://cdn.custom-cursor.com/db/pointer/32/Lord_Voldemort_Pointer.png) , pointer !important;
   }
+  .bg-light {
+    --bs-bg-opacity: 1;
+    background-color: var(--vt-c-black-soft) !important;
+    color : var(--vt-c-text-dark-2);
+  }
+  .nav-link{
+    color : var(--vt-c-text-dark-2);
+  }
+  .nav-link:hover{
+    color : var(--vt-c-text-dark-1);
+  }
 }
 
 *,
@@ -102,6 +113,12 @@ body {
 
 .btn, a{
   cursor: url(https://cdn.custom-cursor.com/db/pointer/32/Harry_Potter_Pointer.png) , pointer ;
+}
+
+.main-navbar{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 }
 
 .main-container{
