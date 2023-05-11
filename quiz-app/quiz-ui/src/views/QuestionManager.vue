@@ -68,7 +68,7 @@ export default {
       }
     },
     async endQuiz(){
-      this.username = "test"
+      this.username = participationStorageService.getPlayerName();
       let data = await quizApiService.postAnswers(this.username, this.selectedAnswers)
       participationStorageService.saveParticipationScore(data.data.score);
       this.$router.push('/end-quiz');

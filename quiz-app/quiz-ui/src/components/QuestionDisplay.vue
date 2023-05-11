@@ -8,8 +8,8 @@
     <div class="row text-center my-3">
       <h5>{{ question.questionText }}</h5>
     </div>
-    <div class="row justify-content-center" v-for="answer in question.possibleAnswers" v-bind:key="answer.date">
-        <button type="button" class="col-4 btn btn-primary main-btn my-2" @click="$emit('answer-selected', answer.id)">{{ answer.text }}</button>
+    <div class="row justify-content-center" v-for="(answer, i) in question.possibleAnswers" v-bind:key="answer.date">
+        <button type="button" class="col-4 btn btn-primary main-btn my-2" @click="$emit('answer-selected', i+1)">{{ answer.text }}</button>
     </div>
     <div class="row">
 
