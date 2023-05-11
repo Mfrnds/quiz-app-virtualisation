@@ -31,7 +31,10 @@ export default {
   getQuizInfo() {
     return this.call('get', 'quiz-info')
   },
-  getQuestion(position) {
+  getQuestionById(id) {
+    return this.call('get', 'questions/' + id)
+  },
+  getQuestionByPosition(position) {
     return this.call('get', 'questions?position=' + position)
   },
   postAnswers(playerName, answers) {

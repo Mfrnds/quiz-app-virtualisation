@@ -1,5 +1,5 @@
 <template>
-    <form v-on:submit.prevent="submitForm">
+    <form v-on:submit.prevent="submitForm" class="main-container pt-4">
         <div class="row text-center">
             <h1 class="main-title">Création d'une nouvelle question</h1>
             <hr>
