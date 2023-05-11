@@ -50,7 +50,7 @@ export default {
   },
   methods:{
     async loadQuestionByPosition(){
-      let data = await quizApiService.getQuestion(this.currentQuestionPosition);
+      let data = await quizApiService.getQuestionByPosition(this.currentQuestionPosition);
       const question = data.data;
 
       this.currentQuestion.questionTitle = question.title;
