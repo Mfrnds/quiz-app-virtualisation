@@ -58,11 +58,11 @@ def CreateQuestion():
 	
 	if position_question: # then we have to decale all questions
 		# get all questions which position are higher or equal than given position and lower than current pos
-		if (payload["position"] < question[4]):
-			c = db.execute_sql("SELECT * FROM Question WHERE position >= ? AND position <= ?", (payload["position"],question[4]))
+		if (payload["position"] < position_question[4]):
+			c = db.execute_sql("SELECT * FROM Question WHERE position >= ? AND position <= ?", (payload["position"],position_question[4]))
 			increment = 1
 		else:
-			c = db.execute_sql("SELECT * FROM Question WHERE position >= ? AND position <= ?", (question[4],payload["position"]))
+			c = db.execute_sql("SELECT * FROM Question WHERE position >= ? AND position <= ?", (position_question[4],payload["position"]))
 			increment = -1
 
 		have_to_modify_questions = c.fetchall()

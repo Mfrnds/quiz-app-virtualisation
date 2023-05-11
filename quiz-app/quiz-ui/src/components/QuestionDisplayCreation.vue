@@ -41,6 +41,7 @@
 
 <script>
 import QuizApiService from '../services/QuizApiService';
+import Swal from 'sweetalert2';
 
 export default {
   name: "QuestionDisplayCreation",
@@ -67,7 +68,7 @@ export default {
         };
         reader.readAsBinaryString(image);
     },
-    submitForm() {
+    async submitForm() {
         let formatedAnswers = [];
         let index = 1;
 
@@ -79,7 +80,15 @@ export default {
             index++;
         });
 
-        QuizApiService.postNewQuestion(this.questionTitle, "test", this.questionText, this.questionPosition, formatedAnswers)
+        let postResponse = await QuizApiService.postNewQuestion(this.questionTitle, "test", this.questionText, this.questionPosition, formatedAnswers)
+
+        if(postResponse.status === 200){
+            Swal.fire('Ajouté !', '', 'success').then((result) => {
+                if (result.isConfirmed) {
+                    window.location = "/admin/view-questions";
+                }
+            })
+        }
     }
   }
 };

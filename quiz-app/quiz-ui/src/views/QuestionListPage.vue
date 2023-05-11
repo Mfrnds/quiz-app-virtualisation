@@ -4,7 +4,7 @@
       <div class="card-body">
         <div class="row justify-content-between align-items-center">
           <h2 class="col-6 main-title">Questions</h2>
-          <span class="badge col-6 second-badge me-3"><i class="bi bi-plus"></i>Ajouter</span>
+          <router-link to="/admin/create-question" class="badge col-6 second-badge me-3"><i class="bi bi-plus"></i>Ajouter</router-link>
         </div>
         <div class="row">
           <table class="table table-striped">
