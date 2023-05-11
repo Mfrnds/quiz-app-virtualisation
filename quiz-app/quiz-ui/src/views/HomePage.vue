@@ -1,4 +1,7 @@
 <template>
+  <audio id ="audio" autoplay>
+    <source :src="audioFile" type="audio/mpeg">
+  </audio>
   <div class="container">
     <div class="row main-container">
       <div class="offset-4 col-4">
@@ -18,10 +21,36 @@
 
 <script>
 import ScoreDisplay from '../components/ScoreDisplay.vue';
-
+import audioFile from "@/assets/audio.mp3";
 
 export default {
-    name: "HomePage",
-    components: { ScoreDisplay }
+  name: "HomePage",
+  components: { ScoreDisplay },
+  data() {
+    return {
+      audioFile: audioFile,
+    };
+  },
+  methods: {
+    savePosition() {
+      const audio = document.getElementById("audio");
+      localStorage.setItem("audioPosition", audio.currentTime);
+    }
+  },
+
+  mounted() {
+    const audio = document.getElementById("audio");
+    audio.loop = true;
+    audio.currentTime = 0;
+
+    document.body.addEventListener('click', () => {
+      audio.play();
+    }, { once: true });
+  },
+
+  beforeRouteLeave(){
+    this.savePosition()
+  }
+
 };
 </script>
