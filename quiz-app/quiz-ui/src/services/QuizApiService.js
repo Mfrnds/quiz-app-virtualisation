@@ -53,5 +53,8 @@ export default {
   },
   postLogin(password) {
     return this.call('post', 'login', { password: password })
+  },
+  deleteQuestion(id) {
+    return this.call('delete', 'questions/' + id, {}, AdminService.getToken())
   }
 }
