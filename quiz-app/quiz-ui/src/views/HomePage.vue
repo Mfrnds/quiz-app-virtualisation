@@ -10,7 +10,7 @@
         </div>
         <div class="row justify-content-center text-center my-4">
           <div class="d-grid gap-2 col-6">
-            <button type="button" class="btn btn-primary btn-lg main-btn"><router-link to="/start-new-quiz-page">Participer</router-link></button>
+            <router-link  class="btn btn-primary btn-lg main-btn" to="/start-new-quiz-page">Participer</router-link>
           </div>
         </div>
         <div class="row text-center my-4">
