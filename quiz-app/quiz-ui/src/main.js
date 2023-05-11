@@ -1,5 +1,6 @@
 import './assets/main.css'
 import './utils/mouse.js'
+import 'bootstrap-icons/font/bootstrap-icons.css'
 
 import { createApp } from 'vue'
 import App from './App.vue'

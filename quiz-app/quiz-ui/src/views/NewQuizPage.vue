@@ -4,17 +4,19 @@
   </audio>
   <div class="container">
     <div class="row main-container">
-      <div class="offset-4 col-4">
-        <div class="row text-center">
-          <h1 class="main-title">Prêt à jouer ?</h1>
+      <div class="offset-3 col-6">
+        <div class="row text-center mb-2">
+          <h1 class="main-title" style="font-size: 4.5rem;">Prêt à jouer ?</h1>
         </div>
-        <div class="row text-center">
-          <div class="input-group mb-3">
+        <div class="row justify-content-center text-center my-4">
+          <div class="d-grid gap-2 col-6">
             <input type="text" class="form-control" v-model="username" placeholder="Nom d'utilisateur" aria-label="Nom d'utilisateur">
           </div>
         </div>
-        <div class="row text-center">
-          <button type="button" class="btn btn-primary main-btn" @click="launchNewQuiz">Commencer</button>
+        <div class="row justify-content-center text-center my-4">
+          <div class="d-grid gap-2 col-6">
+            <button type="button" class="btn btn-primary btn-lg main-btn" @click="launchNewQuiz">Commencer</button>
+          </div>
         </div>
       </div>
     </div>

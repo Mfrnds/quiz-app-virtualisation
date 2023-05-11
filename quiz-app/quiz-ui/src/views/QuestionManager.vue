@@ -1,13 +1,13 @@
 <template>
   <div class="container">
     <div class="row main-container">
-      <div class="col-12">
+      <div class="col-12" style="height: 100%;padding-top: 2rem;">
         <div class="row text-center">
           <div class="col-6">
-            <h2 class="main-title">Q° {{ currentQuestionPosition }} / {{ totalNumberOfQuestion }}</h2>
+            <h4 class="main-title">Q° {{ currentQuestionPosition }} / {{ totalNumberOfQuestion }}</h4>
           </div>
           <div class="col-6">
-            <h2>{{ username }}</h2>
+            <h4 class="main-title">{{ username }}</h4>
           </div>
         </div>
         <div class="row text-center">
