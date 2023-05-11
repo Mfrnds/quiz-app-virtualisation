@@ -42,5 +42,8 @@ export default {
   },
   postNewQuestion(title, image, text, position, answers){
     return this.call('post', 'questions', { title: title, text:text, image: image, position:position,  possibleAnswers: answers }, AdminService.getToken())
+  },
+  postLogin(password) {
+    return this.call('post', 'login', { password: password })
   }
 }
