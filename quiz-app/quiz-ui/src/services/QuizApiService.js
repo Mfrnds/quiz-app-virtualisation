@@ -1,4 +1,5 @@
 import axios from 'axios'
+import AdminService from './AdminService'
 
 const instance = axios.create({
   baseURL: `${import.meta.env.VITE_API_URL}`,
@@ -35,5 +36,8 @@ export default {
   },
   postAnswers(playerName, answers) {
     return this.call('post', 'participations', { playerName: playerName, answers: answers })
+  },
+  postNewQuestion(title, image, text, position, answers){
+    return this.call('post', 'questions', { title: title, text:text, image: image, position:position,  possibleAnswers: answers }, AdminService.getToken())
   }
 }
