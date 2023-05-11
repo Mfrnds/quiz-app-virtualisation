@@ -56,6 +56,8 @@
 
   --wand-cursor: url(https://cdn.custom-cursor.com/db/cursor/32/Harry_Potter_Wand_Cursor.png);
   --wand-pointer: url(https://cdn.custom-cursor.com/db/pointer/32/Harry_Potter_Pointer.png);
+
+  --magic-color:rgba(255, 0, 0, 0.5);
 }
 
 [data-bs-theme="dark"] {
@@ -72,6 +74,8 @@
 
   --wand-cursor: url(https://cdn.custom-cursor.com/db/cursor/32/Lord_Voldemort_Wand_Cursor.png);
   --wand-pointer: url(https://cdn.custom-cursor.com/db/pointer/32/Lord_Voldemort_Pointer.png);
+
+  --magic-color: rgba(0, 255, 0, 0.5);
 }
 
 *,
@@ -154,4 +158,25 @@ body {
   height: 35vh;
   background-position: center;
   background-size: cover;
+}
+
+.click-cursor {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background-color: var(--magic-color);
+  transform: translate(-50%, -50%);
+  animation: click-cursor 1s ease-out forwards;
+}
+
+@keyframes click-cursor {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
 }
