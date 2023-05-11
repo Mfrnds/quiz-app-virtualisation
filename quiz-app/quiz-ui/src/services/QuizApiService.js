@@ -37,11 +37,19 @@ export default {
   getQuestionByPosition(position) {
     return this.call('get', 'questions?position=' + position)
   },
+  getAllQuestions() {
+    return this.call('get', 'questions/all')
+  },
   postAnswers(playerName, answers) {
     return this.call('post', 'participations', { playerName: playerName, answers: answers })
   },
-  postNewQuestion(title, image, text, position, answers){
-    return this.call('post', 'questions', { title: title, text:text, image: image, position:position,  possibleAnswers: answers }, AdminService.getToken())
+  postNewQuestion(title, image, text, position, answers) {
+    return this.call(
+      'post',
+      'questions',
+      { title: title, text: text, image: image, position: position, possibleAnswers: answers },
+      AdminService.getToken()
+    )
   },
   postLogin(password) {
     return this.call('post', 'login', { password: password })

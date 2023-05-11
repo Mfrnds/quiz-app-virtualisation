@@ -32,7 +32,6 @@
 </template>
 
 <script>
-import audioFile from "@/assets/audio.mp3";
 import quizApiService from "../services/QuizApiService";
 import adminService from "../services/AdminService";
 
@@ -50,6 +49,7 @@ export default {
 
       if(loginData.status === 200){
         adminService.saveToken(loginData.data.token);
+        this.$router.push("admin/view-questions");
       }
     }
   }

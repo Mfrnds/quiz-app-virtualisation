@@ -6,6 +6,7 @@ import EndQuizPage from '../views/EndQuizPage.vue'
 import QuestionCreationPage from '../views/QuestionCreationPage.vue'
 import QuestionViewPage from '../views/QuestionViewPage.vue'
 import LoginPage from '../views/LoginPage.vue'
+import QuestionListPage from '../views/QuestionListPage.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -39,6 +40,11 @@ const router = createRouter({
       path: '/admin/view-question/:id',
       name: 'QuestionViewPage',
       component: QuestionViewPage
+    },
+    {
+      path: '/admin/view-questions',
+      name: 'QuestionListPage',
+      component: QuestionListPage
     },
     {
       path: '/login',

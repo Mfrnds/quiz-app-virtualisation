@@ -145,6 +145,17 @@ body {
   --bs-btn-disabled-border-color: var(--grif-1);
 }
 
+.second-badge{
+  color: #000;
+  background-color: var(--grif-3);
+  width: 70px;
+  height: 20px;
+}
+
+.second-badge:hover{
+  background-color: var(--grif-4);
+}
+
 .main-btn a{
   color: #fff;
   text-decoration: none;
@@ -154,4 +165,11 @@ body {
   height: 35vh;
   background-position: center;
   background-size: cover;
+}
+
+.admin-container{
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }

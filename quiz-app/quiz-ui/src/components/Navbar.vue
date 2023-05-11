@@ -20,7 +20,7 @@
 
 <script>
 export default {
-    name: "Navbar",
+    name: "MainNavbar",
     methods:{
       toggleTheme(){
 

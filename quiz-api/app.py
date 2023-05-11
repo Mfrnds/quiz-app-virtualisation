@@ -79,6 +79,21 @@ def CreateQuestion():
 	# Save in database and return id with code 200
 	return {"id": question.persist(payload["possibleAnswers"])}, 200
 
+@app.route('/questions/all', methods=['GET'])
+def GetAllQuestions():
+	db = Database()
+	c = db.execute_sql("SELECT * FROM Question ", ())
+	questions = c.fetchall()
+	c.close()
+	questions_data = []
+	for question in questions:
+		questions_data.append({
+			"id": question[0],
+			"text": question[2],
+			"title": question[1]
+		})
+	return jsonify(questions_data)
+
 @app.route('/questions', methods=['GET'])
 def GetQuestionByPosition():
 	if not request.args.get('position'):
