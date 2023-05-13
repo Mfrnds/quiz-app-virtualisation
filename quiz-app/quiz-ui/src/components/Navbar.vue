@@ -7,7 +7,7 @@
             <router-link class="nav-link" v-if="!isAdmin" to="/"
               ><i class="bi bi-house"></i
             ></router-link>
-            <router-link class="nav-link" v-else to="/admin/view-questions"
+            <router-link class="nav-link" v-else to="/admin"
               ><i class="bi bi-table"></i
             ></router-link>
           </li>

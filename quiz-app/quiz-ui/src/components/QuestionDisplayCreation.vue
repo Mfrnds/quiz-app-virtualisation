@@ -1,8 +1,21 @@
 <template>
   <form v-on:submit.prevent="submitForm" class="main-container pt-4">
-    <div class="row text-center">
+    <div class="row">
       <h1 class="main-title">Création d'une nouvelle question</h1>
       <hr />
+    </div>
+    <div class="row my-2">
+      <label for="questionPosition" class="mb-2">Position de la question</label>
+      <div class="col-12">
+        <input
+          type="number"
+          id="questionPosition"
+          v-model="questionPosition"
+          class="form form-control"
+          placeholder="Position de la question"
+          required="required"
+        />
+      </div>
     </div>
     <div class="row my-2">
       <label for="questionTitle" class="mb-2">Titre de la question</label>
@@ -45,19 +58,6 @@
       </div>
     </div>
     <div class="row my-2">
-      <label for="questionPosition" class="mb-2">Position de la question</label>
-      <div class="col-12">
-        <input
-          type="number"
-          id="questionPosition"
-          v-model="questionPosition"
-          class="form form-control"
-          placeholder="Position de la question"
-          required="required"
-        />
-      </div>
-    </div>
-    <div class="row my-2">
       <label class="mb-2">Réponses proposées</label>
     </div>
     <div class="row justify-content-center" v-for="i in 4" v-bind:key="i">
@@ -76,15 +76,16 @@
             type="text"
             class="form-control w-100"
             v-model="answers[i]"
-            :placeholder="'Réponse n°' + i + ''"
+            :placeholder="'Intitulé de la réponse n°' + i + ''"
             required="required"
           />
         </div>
       </div>
     </div>
-    <div class="row justify-content-center my-2">
-      <div class="col-3 text-center">
-        <button class="btn btn-primary main-btn" id="saveQuestion">Sauvegarder</button>
+    <div class="row justify-content-end my-2">
+      <div class="col-4 text-end me-2">
+        <button class="btn btn-primary main-btn me-3" id="saveQuestion">Sauvegarder</button>
+        <router-link to="/admin" class="btn btn-primary main-btn">Annuler</router-link>
       </div>
     </div>
   </form>
@@ -142,7 +143,7 @@ export default {
       if (postResponse.status === 200) {
         Swal.fire('Ajouté !', '', 'success').then((result) => {
           if (result.isConfirmed) {
-            window.location = '/admin/view-questions'
+            window.location = '/admin'
           }
         })
       } else if (postResponse.status === 401) {

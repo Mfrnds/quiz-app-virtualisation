@@ -6,7 +6,7 @@ import EndQuizPage from '../views/EndQuizPage.vue'
 import QuestionCreationPage from '../views/QuestionCreationPage.vue'
 import QuestionViewPage from '../views/QuestionViewPage.vue'
 import LoginPage from '../views/LoginPage.vue'
-import QuestionListPage from '../views/QuestionListPage.vue'
+import AdminHomePage from '../views/AdminHomePage.vue'
 import AdminService from '../services/AdminService'
 
 const router = createRouter({
@@ -53,9 +53,9 @@ const router = createRouter({
       meta: { requiresAuth: true }
     },
     {
-      path: '/admin/view-questions',
-      name: 'QuestionListPage',
-      component: QuestionListPage,
+      path: '/admin',
+      name: 'AdminHomePage',
+      component: AdminHomePage,
       meta: { requiresAuth: true }
     },
     {

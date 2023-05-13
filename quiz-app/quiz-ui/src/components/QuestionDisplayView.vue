@@ -38,10 +38,9 @@
         />
       </div>
     </div>
-    <div class="row my-2">
+    <div v-if="!isView" class="row my-2">
       <label for="questionImage" class="mb-2">Image illustrant la question</label>
-      <div class="col-12" v-if="isView"><img :src="question.image" width="250" height="200" /></div>
-      <div class="col-12" v-else>
+      <div class="col-12">
         <img :src="question.image" width="250" height="200" /><input
           type="file"
           @change="handleImage"
@@ -75,20 +74,10 @@
         />
       </div>
     </div>
-    <div class="row my-2">
+    <div v-if="!isView" class="row my-2">
       <label for="questionPosition" class="mb-2">Position de la question</label>
       <div class="col-12">
         <input
-          v-if="isView"
-          type="number"
-          id="questionPosition"
-          v-model="question.position"
-          class="form form-control"
-          placeholder="Position de la question"
-          disabled="disabled"
-        />
-        <input
-          v-else
           type="number"
           id="questionPosition"
           v-model="questionPosition"
@@ -139,13 +128,9 @@
       </div>
     </div>
     <div v-if="!isView" class="row justify-content-end my-2">
-      <div class="col-2 text-center">
-        <button class="btn btn-primary main-btn" @click="submitForm">Sauvegarder</button>
-      </div>
-      <div class="col-2">
-        <router-link to="/admin/view-questions" class="btn btn-primary main-btn"
-          >Annuler</router-link
-        >
+      <div class="col-4 text-end me-2">
+        <button class="btn btn-primary main-btn me-3" @click="submitForm">Sauvegarder</button>
+        <router-link to="/admin" class="btn btn-primary main-btn">Annuler</router-link>
       </div>
     </div>
   </div>
@@ -190,7 +175,7 @@ export default {
           QuizApiService.deleteQuestion(this.question.id).then((result) => {
             if (result.status === 204) {
               Swal.fire('Supprimé !', '', 'success').then(() => {
-                this.$router.push('/admin/view-questions')
+                this.$router.push('/admin')
               })
             } else if (result.status === 401) {
               Swal.fire(
@@ -246,7 +231,7 @@ export default {
       if (putResponse.status === 204) {
         Swal.fire('Modifié !', '', 'success').then((result) => {
           if (result.isConfirmed) {
-            this.$router.push('/admin/view-questions')
+            this.$router.push('/admin')
           }
         })
       } else if (putResponse.status === 401) {

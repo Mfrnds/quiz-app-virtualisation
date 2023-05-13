@@ -58,6 +58,12 @@ export default {
   deleteQuestion(id) {
     return this.call('delete', 'questions/' + id, {}, AdminService.getToken())
   },
+  deleteQuestions() {
+    return this.call('delete', 'questions/all', {}, AdminService.getToken())
+  },
+  deleteParticipations() {
+    return this.call('delete', 'participations/all', {}, AdminService.getToken())
+  },
   updateQuestion(id, title, image, text, position, answers) {
     return this.call(
       'put',

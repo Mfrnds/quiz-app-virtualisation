@@ -152,7 +152,7 @@ body {
 .second-badge{
   color: #000;
   background-color: var(--grif-3);
-  width: 80px;
+  width: fit-content;
   height: 20px;
 }
 
