@@ -12,6 +12,11 @@ CORS(app)
 def CheckIfLogged():
 	if "Authorization" in request.headers:
 		#Récupérer le token envoyé en paramètre
+		try:
+			jwt_utils.decode_token(request.headers["Authorization"].split("Bearer ")[1])
+		except jwt_utils.JwtError as e:
+			if str(e) == 'Signature expired. Please log in again.':
+				return False
 		sub = jwt_utils.decode_token(request.headers["Authorization"].split("Bearer ")[1])
 		if sub != "quiz-app-admin":
 			return False

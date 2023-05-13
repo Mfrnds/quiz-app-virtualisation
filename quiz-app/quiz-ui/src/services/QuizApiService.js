@@ -22,10 +22,11 @@ export default {
       data
     })
       .then((response) => {
+        console.log(response)
         return { status: response.status, data: response.data }
       })
       .catch((error) => {
-        console.error(error)
+        return { status: error.response.status, data: error.response.data }
       })
   },
   getQuizInfo() {
@@ -56,5 +57,13 @@ export default {
   },
   deleteQuestion(id) {
     return this.call('delete', 'questions/' + id, {}, AdminService.getToken())
+  },
+  updateQuestion(id, title, image, text, position, answers) {
+    return this.call(
+      'put',
+      'questions/' + id,
+      { title: title, text: text, image: image, position: position, possibleAnswers: answers },
+      AdminService.getToken()
+    )
   }
 }
