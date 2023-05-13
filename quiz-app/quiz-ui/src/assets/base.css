@@ -149,6 +149,11 @@ body {
   --bs-btn-disabled-border-color: var(--grif-1);
 }
 
+.text-bg-success {
+  color: #fff !important;
+  background-color: var(--slit-1) !important;
+}
+
 .second-badge{
   color: #000;
   background-color: var(--grif-3);
