@@ -22,7 +22,6 @@ export default {
       data
     })
       .then((response) => {
-        console.log(response)
         return { status: response.status, data: response.data }
       })
       .catch((error) => {

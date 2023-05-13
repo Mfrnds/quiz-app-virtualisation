@@ -21,9 +21,9 @@
             <router-link class="nav-link" v-if="!isAdmin" to="/login"
               ><i class="bi bi-person"></i
             ></router-link>
-            <router-link class="nav-link" v-else to="/logout"
+            <span class="nav-link" v-else @click="handleLogout"
               ><i class="bi bi-box-arrow-right"></i
-            ></router-link>
+            ></span>
           </li>
         </ul>
       </div>
@@ -32,6 +32,8 @@
 </template>
 
 <script>
+import AdminService from '../services/AdminService'
+
 export default {
   name: 'MainNavbar',
   data() {
@@ -50,6 +52,10 @@ export default {
         window.localStorage.setItem('theme', 'dark')
       }
       this.theme = window.localStorage.getItem('theme')
+    },
+    handleLogout() {
+      AdminService.clear()
+      window.location = '/'
     }
   },
   mounted() {
