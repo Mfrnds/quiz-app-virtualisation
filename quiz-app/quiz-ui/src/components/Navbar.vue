@@ -1,7 +1,18 @@
 <template>
   <nav class="navbar navbar-expand-lg bg-light">
     <div class="container-fluid">
-      <div class="collapse navbar-collapse" id="navbarNav">
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#mainNavBar"
+        aria-controls="mainNavBar"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="mainNavBar">
         <ul class="navbar-nav main-navbar">
           <li class="nav-item">
             <router-link class="nav-link" v-if="!isAdmin" to="/"
@@ -12,7 +23,7 @@
             ></router-link>
           </li>
           <li class="nav-item">
-            <button class="btn" @click="toggleTheme">
+            <button class="btn p-0" @click="toggleTheme">
               <i v-if="theme === 'light'" class="bi bi-moon-stars"></i
               ><i v-else class="bi bi-sun"></i>
             </button>
@@ -29,6 +40,32 @@
       </div>
     </div>
   </nav>
+  <!-- <nav class="navbar navbar-expand-lg bg-light">
+    <div class="container-fluid">
+      <ul class="navbar-nav main-navbar">
+        <li class="nav-item">
+          <router-link class="nav-link" v-if="!isAdmin" to="/"
+            ><i class="bi bi-house"></i
+          ></router-link>
+          <router-link class="nav-link" v-else to="/admin"><i class="bi bi-table"></i></router-link>
+        </li>
+        <li class="nav-item">
+          <button class="btn" @click="toggleTheme">
+            <i v-if="theme === 'light'" class="bi bi-moon-stars"></i
+            ><i v-else class="bi bi-sun"></i>
+          </button>
+        </li>
+        <li class="nav-item">
+          <router-link class="nav-link" v-if="!isAdmin" to="/login"
+            ><i class="bi bi-person"></i
+          ></router-link>
+          <span class="nav-link" v-else @click="handleLogout"
+            ><i class="bi bi-box-arrow-right"></i
+          ></span>
+        </li>
+      </ul>
+    </div>
+  </nav> -->
 </template>
 
 <script>
