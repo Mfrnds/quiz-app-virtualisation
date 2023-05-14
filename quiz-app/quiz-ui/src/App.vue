@@ -5,7 +5,7 @@ import MainNavbar from './components/Navbar.vue'
 
 <template>
   <div class="container-fluid">
-    <div class="row">
+    <div class="row" id="navbar-container">
       <MainNavbar />
     </div>
     <div class="row">

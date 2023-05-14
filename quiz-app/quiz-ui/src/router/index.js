@@ -6,12 +6,14 @@ import EndQuizPage from '../views/EndQuizPage.vue'
 import QuestionCreationPage from '../views/QuestionCreationPage.vue'
 import QuestionViewPage from '../views/QuestionViewPage.vue'
 import LoginPage from '../views/LoginPage.vue'
+import NotFound from '../views/NotFound.vue'
 import AdminHomePage from '../views/AdminHomePage.vue'
 import AdminService from '../services/AdminService'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
+    { path: '/:pathMatch(.*)*', name: 'not-found', component: NotFound },
     {
       path: '/',
       name: 'HomePage',
@@ -74,5 +76,10 @@ router.beforeEach((to, from, next) => {
     next()
   }
 })
+
+router.resolve({
+  name: 'not-found',
+  params: { pathMatch: ['not', 'found'] }
+}).href // '/not/found'
 
 export default router
