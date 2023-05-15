@@ -125,7 +125,7 @@
             v-else
             type="text"
             class="form-control w-100"
-            v-model="answers[i]"
+            v-model="answers[index].text"
             :placeholder="i.text"
           />
         </div>
@@ -166,6 +166,10 @@ export default {
     this.questionText = this.question.text
     this.questionPosition = this.question.position
     this.answers = this.question.possibleAnswers
+
+    if (this.mode == 'edit') {
+      this.isCorrect = this.question.possibleAnswers.findIndex((obj) => obj.isCorrect) + 1
+    }
   },
   methods: {
     handleDeleteClick() {
@@ -213,7 +217,6 @@ export default {
     async submitForm() {
       let formatedAnswers = []
       let index = 1
-      console.log(this.isCorrect)
 
       this.answers.forEach((element) => {
         formatedAnswers.push({
@@ -226,12 +229,11 @@ export default {
       let putResponse = await QuizApiService.updateQuestion(
         this.question.id,
         this.questionTitle,
-        this.questionImage,
+        this.question.image,
         this.questionText,
         this.questionPosition,
         formatedAnswers
       )
-      console.log(putResponse)
 
       if (putResponse.status === 204) {
         Swal.fire('Modifié !', '', 'success').then((result) => {

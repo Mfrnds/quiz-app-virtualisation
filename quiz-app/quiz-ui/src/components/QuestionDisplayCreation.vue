@@ -116,14 +116,12 @@ export default {
       const reader = new FileReader()
       reader.onload = (e) => {
         this.questionImage = 'data:image/png;base64,' + btoa(e.target.result)
-        console.log(this.questionImage)
       }
       reader.readAsBinaryString(image)
     },
     async submitForm() {
       let formatedAnswers = []
       let index = 1
-      console.log(this.isCorrect)
 
       this.answers.forEach((element) => {
         console.log(element)
