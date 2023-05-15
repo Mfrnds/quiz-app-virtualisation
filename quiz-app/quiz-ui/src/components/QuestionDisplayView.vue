@@ -90,7 +90,11 @@
     <div class="row my-2">
       <label class="mb-2">Réponses proposées</label>
     </div>
-    <div class="row justify-content-center" v-for="i in question.possibleAnswers" v-bind:key="i">
+    <div
+      class="row justify-content-center"
+      v-for="(i, index) in question.possibleAnswers"
+      v-bind:key="i"
+    >
       <div class="row mb-3">
         <div class="col-auto">
           <input
@@ -98,15 +102,15 @@
             type="radio"
             v-model="isCorrect"
             disabled="disabled"
-            :checked="i.isCorrect == 1 ? true : false"
+            :checked="i.isCorrect"
           />
           <input
             v-else
             type="radio"
             v-model="isCorrect"
-            :value="i"
+            :value="index + 1"
             required="required"
-            :checked="i.isCorrect == 1 ? true : false"
+            :checked="i.isCorrect"
           />
         </div>
         <div class="col-lg">
@@ -209,6 +213,7 @@ export default {
     async submitForm() {
       let formatedAnswers = []
       let index = 1
+      console.log(this.isCorrect)
 
       this.answers.forEach((element) => {
         formatedAnswers.push({

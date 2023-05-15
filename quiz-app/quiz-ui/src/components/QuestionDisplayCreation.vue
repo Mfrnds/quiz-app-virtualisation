@@ -123,8 +123,10 @@ export default {
     async submitForm() {
       let formatedAnswers = []
       let index = 1
+      console.log(this.isCorrect)
 
       this.answers.forEach((element) => {
+        console.log(element)
         formatedAnswers.push({
           text: element,
           isCorrect: index == this.isCorrect ? 1 : 0
