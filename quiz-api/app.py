@@ -61,10 +61,10 @@ def CreateQuestion():
 	c.execute("commit")
 	c.close()
 	
-	if position_question: # then we have to decale all questions
+	if position_question is not None: # then we have to decale all questions
 		# get all questions which position are higher or equal than given position and lower than current pos
-		if (payload["position"] < position_question[4]):
-			c = db.execute_sql("SELECT * FROM Question WHERE position >= ? AND position <= ?", (payload["position"],position_question[4]))
+		if (payload["position"] <= position_question[4]):
+			c = db.execute_sql("SELECT * FROM Question WHERE position >= ?", (payload["position"],))
 			increment = 1
 		else:
 			c = db.execute_sql("SELECT * FROM Question WHERE position >= ? AND position <= ?", (position_question[4],payload["position"]))
