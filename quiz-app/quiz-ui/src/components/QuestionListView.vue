@@ -13,6 +13,7 @@
         <table class="table table-striped">
           <thead>
             <tr>
+              <th scope="col">N°</th>
               <th scope="col">Titre</th>
               <th scope="col">Intitulé</th>
               <th scope="col"></th>
@@ -23,6 +24,7 @@
               <span class="text-center">Aucune questions</span>
             </div>
             <tr v-else v-for="question in questions" v-bind:key="question.id">
+              <th>{{ question.position }}</th>
               <th>{{ question.title }}</th>
               <td>{{ question.text }}</td>
               <td>

@@ -87,7 +87,7 @@ def CreateQuestion():
 @app.route('/questions/all', methods=['GET'])
 def GetAllQuestions():
 	db = Database()
-	c = db.execute_sql("SELECT * FROM Question ", ())
+	c = db.execute_sql("SELECT * FROM Question ORDER BY position", ())
 	questions = c.fetchall()
 	c.close()
 	questions_data = []
@@ -95,7 +95,8 @@ def GetAllQuestions():
 		questions_data.append({
 			"id": question[0],
 			"text": question[2],
-			"title": question[1]
+			"title": question[1],
+			"position": question[4]
 		})
 	return jsonify(questions_data)
 

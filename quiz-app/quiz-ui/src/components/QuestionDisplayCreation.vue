@@ -124,7 +124,6 @@ export default {
       let index = 1
 
       this.answers.forEach((element) => {
-        console.log(element)
         formatedAnswers.push({
           text: element,
           isCorrect: index == this.isCorrect ? 1 : 0
