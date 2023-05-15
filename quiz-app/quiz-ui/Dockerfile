@@ -18,10 +18,6 @@ RUN npm install
 # Copie du reste du code source
 COPY . .
 
-# En local même dans Docker, l'API sera toujours accessible comme lors des devs
-# Important : pour déployer l'image de prod, nous changerons ce chemin en /api
-ENV VITE_API_URL=http://localhost:5000
-
 # Construction du bundle de l'application
 # Ceci va générer la version de prod de l'UI dans le répertoire /app/dist
 RUN npm run build
