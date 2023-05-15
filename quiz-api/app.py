@@ -29,7 +29,6 @@ def RebuildDatabase():
 	db = Database()
 	db.db_init()
 
-	
 	return 'Ok', 200
 
 # AUTHENTICATION
@@ -39,7 +38,7 @@ def Login():
 	payload = request.get_json()
 	tried_password = payload["password"].encode('UTF-8')
 
-	if (hashlib.md5(tried_password).digest() == b'\x192\xe8\xf1c]\x93\xb6\x8a+\xf7\xdc\x07\xa4\x0e\xc1'):
+	if (hashlib.md5(tried_password).digest() == b'\xcb\x90\xb1\x00n\\\xd5.i?Bt\xa2\xa9r\xf5'):
 		token = jwt_utils.build_token()
 		return {"token":token}, 200
 	
