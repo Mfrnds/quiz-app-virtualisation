@@ -14,11 +14,6 @@ RUN pip install -r requirements.txt
 # Creation d'une base vide
 RUN touch quiz.db
 
-# Variables d'environement de production
-ENV FLASK_DEBUG=0
-ENV FLASK_ENV=production
-ENV FLASK_APP=app.py
-
 # Copie de l'ensemble du code + dépendances
 COPY . .
 
