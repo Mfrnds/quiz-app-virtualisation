@@ -100,6 +100,36 @@ def GetAllQuestions():
 		})
 	return jsonify(questions_data)
 
+@app.route('/questions/all-details', methods=['GET'])
+def GetAllQuestionsDetails():
+	db = Database()
+	c = db.execute_sql("SELECT * FROM Question",())
+	questions = c.fetchall()
+	c.close()
+	questions_data = []
+	for q in questions:
+		print(q[0])
+		db = Database()
+		c = db.execute_sql("SELECT * FROM Question JOIN Answer ON Answer.question_id = Question.id WHERE Question.id = ?", (q[0],))
+		question = c.fetchall()
+		c.close()
+
+		answers = []
+		for answer in question:
+			answers.append({
+				"text": answer[6],
+				"isCorrect": False if answer[7] == 0 else True
+			})
+
+			questions_data.append({
+				'title': question[0][1],
+				'position': question[0][4],
+				'text': question[0][2],
+				'possibleAnswers': answers,
+				'image': question[0][3]
+			})
+	return jsonify(questions_data)
+
 @app.route('/questions', methods=['GET'])
 def GetQuestionByPosition():
 	if not request.args.get('position'):
