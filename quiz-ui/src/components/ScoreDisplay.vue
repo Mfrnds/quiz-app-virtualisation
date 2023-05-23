@@ -28,8 +28,6 @@ export default {
     let quizInfo = await quizApiService.getQuizInfo()
 
     this.registeredScores = quizInfo.data.scores
-    console.log(this.playerName)
-    console.log(this.score)
   }
 }
 </script>

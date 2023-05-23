@@ -55,7 +55,6 @@ export default {
   },
   async created() {
     let questionsData = await QuizApiService.getAllQuestions()
-    console.log(questionsData)
     this.questions = questionsData.data
   },
   methods: {

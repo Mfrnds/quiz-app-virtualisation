@@ -55,7 +55,7 @@ export default {
 
       if (loginData.status === 200) {
         adminService.saveToken(loginData.data.token)
-        this.$router.push('admin')
+        window.location = '/admin'
       } else if (loginData.status === 401) {
         this.isCorrect = false
       }
