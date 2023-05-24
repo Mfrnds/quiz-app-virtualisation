@@ -1,5 +1,5 @@
 <template>
-  <ul class="list-group" style="max-height: 230px; overflow: scroll">
+  <ul class="list-group" style="max-height: 230px; overflow: auto">
     <li class="list-group-item" v-for="scoreEntry in registeredScores" v-bind:key="scoreEntry.date">
       {{ scoreEntry.playerName }} - {{ scoreEntry.score }} points
       <span
