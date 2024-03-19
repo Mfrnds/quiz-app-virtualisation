@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quiz-ui-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: quiz-ui
+  template:
+    metadata:
+      labels:
+        app: quiz-ui
+    spec:
+      containers:
+        - name: quiz-ui-container
+          image: marfrnds/quiz-ui:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          resources: {}
+status: {}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: quiz-ui-service
+spec:
+  ports:
+    - name: http
+      targetPort: 80
+      port: 80
+      protocol: TCP
+  selector:
+    app: quiz-ui
+  type: NodePort
+status:
+  loadBalancer: {}

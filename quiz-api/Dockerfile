@@ -11,15 +11,8 @@ COPY requirements.txt requirements.txt
 # Installation des dépendances dans le container
 RUN pip install -r requirements.txt
 
-# Creation d'une base vide
-RUN touch quiz.db
-
 # Copie de l'ensemble du code + dépendances
 COPY . .
-
-# Informations sur l'image
-LABEL maintainer="Lefebvre Timothée <timothee.lefebvre@edu.esiee.fr>" \
-    version="1.0"
 
 # Commande de démarrage du serveur gunicorn
 CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app", "--log-level", "info", "--error-logfile", "-", "--access-logfile", "-"]

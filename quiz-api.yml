@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quiz-api-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: quiz-api
+  template:
+    metadata:
+      labels:
+        app: quiz-api
+    spec:
+      containers:
+        - image: marfrnds/quiz-api:latest
+          imagePullPolicy: IfNotPresent
+          name: quiz-api
+      restartPolicy: Always
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: quiz-api-service
+spec:
+  ports:
+    - nodePort: 31280
+      port: 5005 # le port du service
+      protocol: TCP
+      targetPort: 5000 # le port du code
+  selector:
+    app: quiz-api
+  type: NodePort
